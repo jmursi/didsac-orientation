@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIDSAC Orientation - Daystar University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 95%;
+            max-width: 1200px;
+            max-height: 80vh;
+            text-align: center;
+            padding: 15px;
+            background: rgba(30, 58, 138, 0.95);
+            border-radius: 15px;
+            border: 2px solid #fbbf24;
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.3);
+            animation: slideIn 0.6s ease-out;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.75em;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #e5e7eb;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .content {
+            font-size: 1.05em;
+            line-height: 1.5;
+            text-align: left;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content li {
+            margin: 8px 0;
+            padding: 10px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #fbbf24;
+            border-radius: 6px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .content li::before {
+            content: "✓";
+            color: #fbbf24;
+            font-weight: bold;
+            font-size: 2.1em;
+            margin-right: 10px;
+        }
+
+        .specialization {
+            font-weight: bold;
+            color: #fbbf24;
+        }
+
+        .emoji {
+            font-size: 2.2em;
+            margin: 0 5px;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .quote {
+            font-size: 2.1em;
+            font-style: italic;
+            color: #fbbf24;
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .course-card {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #fbbf24;
+            text-align: center;
+        }
+
+        .course-title {
+            color: #fbbf24;
+            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #fbbf24;
+            color: #1e3a8a;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.9em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(251, 191, 36, 0.9);
+            color: #1e3a8a;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            z-index: 1000;
+        }
+
+        .mission-text {
+            font-size: 1.2em;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .call-to-action {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            color: #1e3a8a;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .register-link {
+            background: #1e3a8a;
+            color: #fbbf24;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            display: inline-block;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            border: 2px solid #fbbf24;
+        }
+
+        .register-link:hover {
+            background: #fbbf24;
+            color: #1e3a8a;
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fbbf24;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">DIDSAC</div>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">9</span>
+    </div>
+
+    <div class="slide-container">
+        <!-- Slide 1: Welcome -->
+        <div class="slide active">
+            <h1>Welcome to DIDSAC! <span class="emoji">🎉</span></h1>
+            <div class="subtitle">Daystar Institute of Data Science, AI & Cybersecurity</div>
+            <div class="content">
+                <div class="quote">
+                    Good morning & welcome to Daystar!
+                </div>
+                <ul>
+                    <li>You're not just starting university — you're also part of the launch of the <span class="highlight">Daystar Institute of Data Science, AI & Cybersecurity (DIDSAC)</span></li>
+                    <li>Think: M-Pesa, TikTok, YouTube, Google Maps → all powered by <span class="highlight">data, AI & cybersecurity</span></li>
+                    <li>Every specialization here produces and needs data <span class="emoji">👉</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 2: Specializations Part 1 -->
+        <div class="slide">
+            <h2>Your Specializations & Data (Part 1)</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="specialization">Actuarial Science:</span> Risk, insurance, finance → powered by AI models</li>
+                    <li><span class="specialization">Applied Computer Science:</span> Builders of tomorrow's apps & platforms</li>
+                    <li><span class="specialization">Biomedical Sciences:</span> AI drives diagnostics, vaccines, and health data</li>
+                    <li><span class="specialization">Environmental Health:</span> Data predicts climate, pollution, and disease</li>
+                </ul>
+                <div class="quote">
+                    <span class="emoji">👉</span> Wherever you are, data is your language, AI your tool, and cybersecurity your shield.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Specializations Part 2 -->
+        <div class="slide">
+            <h2>Your Specializations & Data (Part 2)</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="specialization">BSc IT:</span> Networks, systems, and strong security skills are essential</li>
+                    <li><span class="specialization">Master of Public Health:</span> Epidemiology & policy rely on clean data</li>
+                    <li><span class="specialization">DICT:</span> Communication technologies thrive on analytics & secure systems</li>
+                </ul>
+                <div class="quote">
+                    <span class="emoji">💡</span> Every path here connects to data-driven futures.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: What DIDSAC Offers -->
+        <div class="slide">
+            <h2>What DIDSAC Offers You</h2>
+            <div class="content">
+                <ul>
+                    <li>Hands-on training in coding, analytics & AI</li>
+                    <li>Professional short courses (Python, R, Power BI, SQL, ML)</li>
+                    <li>Research tackling African problems (scams, misinformation, digital finance)</li>
+                    <li>Industry connections with tech leaders & policymakers</li>
+                    <li>Focus on ethical & responsible technology</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: September Short Courses -->
+        <div class="slide">
+            <h2>Upcoming September Short Courses <span class="emoji">📌</span></h2>
+            <div class="subtitle">Start this September @ affordable fee (KES 10,000 each)</div>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-title">FAIDA: Foundation of AI & Data Analytics</div>
+                    <div>Online, evenings</div>
+                </div>
+                <div class="course-card">
+                    <div class="course-title">Applied Data Science with Python</div>
+                    <div>Online, evenings</div>
+                </div>
+                <div class="course-card">
+                    <div class="course-title">Power BI for Data Visualization</div>
+                    <div>Physical, Saturdays @ Valley Rd</div>
+                </div>
+                <div class="course-card">
+                    <div class="course-title">Research & Statistical Analysis with R</div>
+                    <div>Physical, Saturdays</div>
+                </div>
+            </div>
+            <div class="call-to-action">
+                <span class="emoji">📅</span> Classes begin 15th Sept 2025
+                <br><br>
+                <a href="https://bit.ly/4didsac" class="register-link">Register Now: bit.ly/4didsac</a>
+            </div>
+        </div>
+
+        <!-- Slide 6: Mission -->
+        <div class="slide">
+            <h2>Our Mission <span class="emoji">🌍</span></h2>
+            <div class="quote mission-text">
+                "To equip, connect, and transform."
+            </div>
+            <div class="content">
+                <ul>
+                    <li>Practical skills for today</li>
+                    <li>Industry & research opportunities for tomorrow</li>
+                    <li>A hub for ethical innovation in Africa</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Student Ambassadors -->
+        <div class="slide">
+            <h2>Student Ambassadors <span class="emoji">👥</span></h2>
+            <div class="subtitle">Join as a DIDSAC Student Ambassador:</div>
+            <div class="content">
+                <ul>
+                    <li>Represent your specialization</li>
+                    <li>Lead peers in workshops & events</li>
+                    <li>Get mentorship & networking opportunities</li>
+                    <li>Build your portfolio as a leader in data & AI</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Call to Action -->
+        <div class="slide">
+            <h2>Call to Action</h2>
+            <div class="subtitle">Here's how to plug in NOW:</div>
+            <div class="content">
+                <ul>
+                    <li>Register for the <span class="highlight">September Short Courses</span></li>
+                    <li>Participate in upcoming workshops & hackathons</li>
+                    <li>Sign up as a <span class="highlight">Student Ambassador</span></li>
+                    <li>Stay connected → follow our socials & website</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Closing Motivation -->
+        <div class="slide">
+            <h2>Closing Motivation <span class="emoji">💡</span></h2>
+            <div class="quote">
+                "The future belongs to those who master data. Whatever your field — finance, health, IT, or science — you will stand out if you can harness data, AI, and cybersecurity."
+            </div>
+            <div class="quote" style="margin-top: 20px;">
+                With DIDSAC, we walk <span class="highlight">Urunana</span> — hand in hand — toward a data-driven Africa.
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Show current slide
+            currentSlide = Math.max(0, Math.min(n, totalSlides - 1));
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+
+        // Touch/swipe support for mobile
+        let startX = null;
+        
+        document.addEventListener('touchstart', function(event) {
+            startX = event.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(event) {
+            if (startX === null) return;
+            
+            const endX = event.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                if (diff > 0) {
+                    nextSlide(); // Swipe left - next slide
+                } else {
+                    previousSlide(); // Swipe right - previous slide
+                }
+            }
+            
+            startX = null;
+        });
+    </script>
+</body>
+</html>
